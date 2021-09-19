@@ -27,13 +27,13 @@ namespace phonbook
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            connection.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Asus\Desktop\phonbock\phonbook\phonbook\Telbook.mdf;Integrated Security=True";
-            connection.Open();
+            connection.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=" + Application.StartupPath + @"\Telbook.mdf;Integrated Security=True";
+
             Fillgrid();
             crm = (CurrencyManager)this.BindingContext[dataset1, "T1"];
             btnSave.Enabled = false;
             readOnlyTextbox(true, "");
-          
+
         }
 
         void Fillgrid(string text = "select * from Tbltell")
@@ -63,7 +63,7 @@ namespace phonbook
             if (dataGridView1.SelectedCells.Count > 0)
             {
                 changeCurentrows(1);
-                
+
                 dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.SelectedRows[0].Index;
             }
 
@@ -82,15 +82,22 @@ namespace phonbook
 
         private void btnFirst_Click(object sender, EventArgs e)
         {
+            if (dataGridView1.SelectedCells.Count > 0)
+            {
+                changeCurentrows(0);
+                dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.SelectedRows[0].Index;
+            }
 
-            changeCurentrows(0);
-            dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.SelectedRows[0].Index;
         }
 
         private void btnLast_Click(object sender, EventArgs e)
         {
-            changeCurentrows(dataGridView1.Rows.Count - 1);
-            dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.SelectedRows[0].Index;
+            if (dataGridView1.Rows.Count > 0)
+            {
+                changeCurentrows(dataGridView1.Rows.Count - 1);
+                dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.SelectedRows[0].Index;
+            }
+
         }
         private void changeCurentrows(int num)
         {
@@ -107,8 +114,8 @@ namespace phonbook
                 dataGridView1.Rows[a].Selected = false;
             }
             //dataGridView1.Rows[(crm.Position - num)].Selected = false;
-
-            dataGridView1.Rows[(crm.Position)].Selected = true;
+            if (dataGridView1.Rows.Count > 0)
+                dataGridView1.Rows[(crm.Position)].Selected = true;
 
         }
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -127,6 +134,7 @@ namespace phonbook
             txtFamliy.Text = "";
             txtTell.Text = "";
             txtAddress.Text = "";
+            pib.ImageLocation = "";
             if (dataGridView1.Rows.Count > 0)
                 dataGridView1.CurrentCell.Selected = false;
 
@@ -187,7 +195,7 @@ namespace phonbook
             if (txtFamliy.Text != "")
                 txtfamily = txtFamliy.Text;
 
-
+            connection.Open();
             SqlCommand com = new SqlCommand();
             com.Connection = connection;
             //VALUES('"+"@p1"+"', "+ "@p2"+"'," + "@p3" + "', "+ "@p4" + "',)"
@@ -207,6 +215,7 @@ namespace phonbook
             com.Parameters.AddWithValue("@p5", pib.ImageLocation);
             com.ExecuteNonQuery();
             Fillgrid();
+            connection.Close();
         }
         bool isedit1 = true;
         private void btnEdit_Click(object sender, EventArgs e)
@@ -248,12 +257,14 @@ namespace phonbook
                 return;
             }
             SqlCommand com = new SqlCommand();
+            connection.Open();
             com.Connection = connection;
             com.CommandText = "DELETE FROM Tbltell where Phoneno = @man";
             com.Parameters.AddWithValue("@man", txtTell.Text);
 
             com.ExecuteNonQuery();
             Fillgrid();
+            connection.Close();
         }
 
 
@@ -285,37 +296,37 @@ namespace phonbook
 
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Up)
+            if (e.KeyCode == Keys.Up)
             {
                 btnPre_Click(null, null);
             }
-            else if(e.KeyCode == Keys.Down)
+            else if (e.KeyCode == Keys.Down)
             {
                 btnNext_Click(null, null);
             }
         }
 
 
-       private void selectImage()
+        private void selectImage()
         {
-            
+
             DialogResult dr = new DialogResult();
-           dr = openFileDialog1.ShowDialog();
+            dr = openFileDialog1.ShowDialog();
             string fliname1 = openFileDialog1.FileName;
-            string filnamecopy = Application.StartupPath + @"\image\" + txtTell.Text +"."+ fliname1.Split('.')[fliname1.Split('.').Length - 1];
+            string filnamecopy = Application.StartupPath + @"\image\" + txtTell.Text + "." + fliname1.Split('.')[fliname1.Split('.').Length - 1];
             if (System.IO.File.Exists(filnamecopy))
                 System.IO.File.Delete(filnamecopy);
-                
+
             if (System.IO.Directory.Exists(Application.StartupPath + @"\image") == false)
             {
                 System.IO.Directory.CreateDirectory((Application.StartupPath + @"\image"));
             }
-           
+
             if (dr == DialogResult.OK)
             {
                 System.IO.File.Copy(fliname1, filnamecopy);
                 pib.ImageLocation = filnamecopy;
-               
+
             }
         }
 
