@@ -54,9 +54,13 @@ namespace phonbook
             this.telbookDataSet = new phonbook.TelbookDataSet();
             this.telbookDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.pib = new System.Windows.Forms.PictureBox();
+            this.btnselect = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.telbookDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.telbookDataSetBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pib)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -125,11 +129,11 @@ namespace phonbook
             // 
             // txtAddress
             // 
-            this.txtAddress.Location = new System.Drawing.Point(96, 126);
+            this.txtAddress.Location = new System.Drawing.Point(96, 129);
             this.txtAddress.Margin = new System.Windows.Forms.Padding(5);
             this.txtAddress.Multiline = true;
             this.txtAddress.Name = "txtAddress";
-            this.txtAddress.Size = new System.Drawing.Size(232, 134);
+            this.txtAddress.Size = new System.Drawing.Size(232, 164);
             this.txtAddress.TabIndex = 3;
             // 
             // label5
@@ -149,6 +153,7 @@ namespace phonbook
             this.txtSearchFor.Name = "txtSearchFor";
             this.txtSearchFor.Size = new System.Drawing.Size(222, 30);
             this.txtSearchFor.TabIndex = 13;
+            this.txtSearchFor.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtSearchFor_KeyUp);
             // 
             // label6
             // 
@@ -162,7 +167,13 @@ namespace phonbook
             // 
             // cmbSearchBy
             // 
+            this.cmbSearchBy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSearchBy.FormattingEnabled = true;
+            this.cmbSearchBy.Items.AddRange(new object[] {
+            "Firstname",
+            "Lastname",
+            "Phoneno",
+            "address"});
             this.cmbSearchBy.Location = new System.Drawing.Point(548, 6);
             this.cmbSearchBy.Name = "cmbSearchBy";
             this.cmbSearchBy.Size = new System.Drawing.Size(224, 31);
@@ -170,84 +181,93 @@ namespace phonbook
             // 
             // btnNew
             // 
-            this.btnNew.Location = new System.Drawing.Point(18, 278);
+            this.btnNew.Location = new System.Drawing.Point(18, 311);
             this.btnNew.Name = "btnNew";
             this.btnNew.Size = new System.Drawing.Size(73, 31);
             this.btnNew.TabIndex = 5;
             this.btnNew.Text = "New";
             this.btnNew.UseVisualStyleBackColor = true;
+            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(97, 278);
+            this.btnSave.Location = new System.Drawing.Point(97, 311);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(73, 31);
             this.btnSave.TabIndex = 4;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnDel
             // 
-            this.btnDel.Location = new System.Drawing.Point(255, 278);
+            this.btnDel.Location = new System.Drawing.Point(255, 311);
             this.btnDel.Name = "btnDel";
             this.btnDel.Size = new System.Drawing.Size(73, 31);
             this.btnDel.TabIndex = 7;
             this.btnDel.Text = "Del";
             this.btnDel.UseVisualStyleBackColor = true;
+            this.btnDel.Click += new System.EventHandler(this.btnDel_Click);
             // 
             // btnEdit
             // 
-            this.btnEdit.Location = new System.Drawing.Point(176, 278);
+            this.btnEdit.Location = new System.Drawing.Point(176, 311);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(73, 31);
             this.btnEdit.TabIndex = 6;
             this.btnEdit.Text = "Edit";
             this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // btnFirst
             // 
-            this.btnFirst.Location = new System.Drawing.Point(18, 315);
+            this.btnFirst.Location = new System.Drawing.Point(18, 348);
             this.btnFirst.Name = "btnFirst";
             this.btnFirst.Size = new System.Drawing.Size(73, 31);
             this.btnFirst.TabIndex = 8;
             this.btnFirst.Text = "First";
             this.btnFirst.UseVisualStyleBackColor = true;
+            this.btnFirst.Click += new System.EventHandler(this.btnFirst_Click);
             // 
             // btnNext
             // 
-            this.btnNext.Location = new System.Drawing.Point(97, 315);
+            this.btnNext.Location = new System.Drawing.Point(97, 348);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(73, 31);
             this.btnNext.TabIndex = 9;
             this.btnNext.Text = "Next";
             this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
             // btnLast
             // 
-            this.btnLast.Location = new System.Drawing.Point(255, 315);
+            this.btnLast.Location = new System.Drawing.Point(255, 348);
             this.btnLast.Name = "btnLast";
             this.btnLast.Size = new System.Drawing.Size(73, 31);
             this.btnLast.TabIndex = 11;
             this.btnLast.Text = "Last";
             this.btnLast.UseVisualStyleBackColor = true;
+            this.btnLast.Click += new System.EventHandler(this.btnLast_Click);
             // 
             // btnPre
             // 
-            this.btnPre.Location = new System.Drawing.Point(176, 315);
+            this.btnPre.Location = new System.Drawing.Point(176, 348);
             this.btnPre.Name = "btnPre";
             this.btnPre.Size = new System.Drawing.Size(73, 31);
             this.btnPre.TabIndex = 10;
             this.btnPre.Text = "Pre...";
             this.btnPre.UseVisualStyleBackColor = true;
+            this.btnPre.Click += new System.EventHandler(this.btnPre_Click);
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(550, 88);
+            this.btnSearch.Location = new System.Drawing.Point(550, 106);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(80, 31);
             this.btnSearch.TabIndex = 14;
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // telbookDataSet
             // 
@@ -264,21 +284,51 @@ namespace phonbook
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(336, 126);
+            this.dataGridView1.Location = new System.Drawing.Point(336, 149);
+            this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(436, 230);
             this.dataGridView1.TabIndex = 15;
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView1_KeyDown);
+            // 
+            // pib
+            // 
+            this.pib.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pib.Location = new System.Drawing.Point(336, 12);
+            this.pib.Name = "pib";
+            this.pib.Size = new System.Drawing.Size(95, 88);
+            this.pib.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pib.TabIndex = 16;
+            this.pib.TabStop = false;
+            // 
+            // btnselect
+            // 
+            this.btnselect.Enabled = false;
+            this.btnselect.Location = new System.Drawing.Point(336, 106);
+            this.btnselect.Name = "btnselect";
+            this.btnselect.Size = new System.Drawing.Size(95, 31);
+            this.btnselect.TabIndex = 14;
+            this.btnselect.Text = "Select...";
+            this.btnselect.UseVisualStyleBackColor = true;
+            this.btnselect.Click += new System.EventHandler(this.btnselect_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(796, 357);
+            this.ClientSize = new System.Drawing.Size(796, 396);
+            this.Controls.Add(this.pib);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnPre);
             this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.btnLast);
+            this.Controls.Add(this.btnselect);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.btnDel);
             this.Controls.Add(this.btnNext);
@@ -300,12 +350,15 @@ namespace phonbook
             this.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(5);
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.telbookDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.telbookDataSetBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pib)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -337,6 +390,9 @@ namespace phonbook
         private System.Windows.Forms.BindingSource telbookDataSetBindingSource;
         private TelbookDataSet telbookDataSet;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.PictureBox pib;
+        private System.Windows.Forms.Button btnselect;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
 
