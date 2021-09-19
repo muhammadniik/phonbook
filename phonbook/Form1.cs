@@ -315,7 +315,7 @@ namespace phonbook
             {
                 System.IO.File.Copy(fliname1, filnamecopy);
                 pib.ImageLocation = filnamecopy;
-                pi
+               
             }
         }
 
